@@ -147,6 +147,7 @@ export default class RemoteSuite extends Suite {
               case 'runEnd':
                 // Consume this event, and do some
                 // post-processing
+                process.emitWarning('runEnd is catched here');
                 let promise = remote.setHeartbeatInterval(0);
                 if (this.executor.hasCoveredFiles) {
                   // get about:blank to always collect code

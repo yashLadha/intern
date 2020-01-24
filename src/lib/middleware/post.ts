@@ -5,6 +5,9 @@ import { Message } from '../channels/Base';
 
 export default function post(context: Context): RequestHandler {
   return (request, response, next) => {
+    process.emitWarning(
+      `POST middleware is called with method: ${request.method}`
+    );
     if (request.method !== 'POST') {
       return next();
     }
@@ -24,6 +27,9 @@ export default function post(context: Context): RequestHandler {
         return JSON.parse(messageString);
       });
 
+      process.emitWarning(
+        `POST data ${request.url} ${JSON.stringify(messages)}`
+      );
       executor.log('Received HTTP messages');
 
       Promise.all(messages.map(message => handleMessage(message)))

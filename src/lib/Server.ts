@@ -85,6 +85,7 @@ export default class Server implements ServerProperties {
         this._handleWebSocket(client);
       });
       wsServer.on('error', error => {
+        process.emitWarning(`Error is generated in websocket ${error.message}`);
         if (isErrnoException(error) && error.code === 'EADDRINUSE') {
           const err: NodeJS.ErrnoException = new Error(
             `Something is already listening on the websocket server port (${
@@ -307,13 +308,18 @@ export default class Server implements ServerProperties {
   }
 
   private _handleWebSocket(client: WebSocket) {
+    process.emitWarning(`Called from this client: ${client.url}`);
     client.on('message', data => {
       this.executor.log('Received WebSocket message');
       const message: Message = JSON.parse(data.toString());
+      this.executor.log(`Message received: ${data.toString()}`);
       this._handleMessage(message)
         .catch(error => this.executor.emit('error', error))
         .then(() => {
           this.executor.log('Sending ack for [', message.id, ']');
+          process.emitWarning(
+            `Response emitted for: ${JSON.stringify({ id: message.id })}`
+          );
           client.send(JSON.stringify({ id: message.id }), error => {
             if (error) {
               this.executor.emit(

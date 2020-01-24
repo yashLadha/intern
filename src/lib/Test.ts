@@ -138,13 +138,13 @@ export default class Test implements TestProperties {
    * The number of milliseconds this test can run before it will be canceled.
    */
   get timeout() {
-    if (this._timeout != null) {
-      return this._timeout;
-    }
-    if (this.parent && this.parent.timeout != null) {
-      return this.parent.timeout;
-    }
-    return 30000;
+    // if (this._timeout != null) {
+    //   return this._timeout;
+    // }
+    // if (this.parent && this.parent.timeout != null) {
+    //   return this.parent.timeout;
+    // }
+    return 50000;
   }
 
   set timeout(value) {
