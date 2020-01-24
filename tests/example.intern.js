@@ -10,7 +10,8 @@ define({
 	// Note that the `build` capability will be filled in with the current commit ID or build tag from the CI
 	// environment automatically
 	capabilities: {
-		'browserstack.selenium_version': '2.45.0'
+		'browserstack.selenium_version': '2.45.0',
+    'build': 'Intern-3 logging'
 	},
 
 	// Browsers to run integration testing against. Options that will be permutated are browserName, version, platform,
@@ -25,8 +26,14 @@ define({
 		{ browserName: 'safari', version: '8', platform: 'MAC' }
 	],
 
+  debug: true,
+
 	// Maximum number of simultaneous integration tests that should be executed on the remote WebDriver service
-	maxConcurrency: 2,
+	maxConcurrency: 5,
+
+  reporters: [
+    {id: 'runner'}
+  ],
 
 	// Name of the tunnel class to use for WebDriver tests.
 	// See <https://theintern.github.io/intern/#option-tunnel> for built-in options
