@@ -422,6 +422,12 @@ export default class Node extends Executor<NodeEvents, Config, NodePlugins> {
             return this._createSessionSuites().then(() => {
               return tunnel
                 .start()
+                .then(
+                  async () =>
+                    new Promise(res => {
+                      setTimeout(res, 1000);
+                    })
+                )
                 .then(() => this.emit('tunnelStart', { tunnel }));
             });
           })
